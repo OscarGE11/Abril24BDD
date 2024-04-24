@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS Libros (
     Autor VARCHAR(255),
     Editorial VARCHAR(255),
     ID_Coleccion INT,
-    FOREIGN KEY (ID_Coleccion) REFERENCES Colecciones(ID_Coleccion)
+    FOREIGN KEY (ID_Coleccion) REFERENCES Colecciones(ID_Coleccion) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Almacenes (
@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS Almacenes_Libros(
     ID_Almacen INT,
     ISBN VARCHAR(50),
     PRIMARY KEY(ID_Almacen,ISBN),
-    FOREIGN KEY(ID_Almacen) REFERENCES Almacenes(ID_Almacen),
-    FOREIGN KEY(ISBN) REFERENCES Libros(ISBN)
+    FOREIGN KEY(ID_Almacen) REFERENCES Almacenes(ID_Almacen) ON DELETE CASCADE,
+    FOREIGN KEY(ISBN) REFERENCES Libros(ISBN) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Provincias(
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS Provincias(
     Nombre VARCHAR(255),
     "Extension" INT,
     ID_Almacen INT,
-    FOREIGN KEY(ID_Almacen) REFERENCES Almacenes(ID_Almacen)
+    FOREIGN KEY(ID_Almacen) REFERENCES Almacenes(ID_Almacen) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Poblaciones (
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS Poblaciones (
     Nombre VARCHAR(255),
     Habitantes INT,
     ID_Provincia INT,
-    FOREIGN KEY(ID_Provincia) REFERENCES Provincias(ID_Provincia)
+    FOREIGN KEY(ID_Provincia) REFERENCES Provincias(ID_Provincia) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Socios (
@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS Socios (
     DNI VARCHAR(20) UNIQUE,
     Telefono VARCHAR(9),
     ID_Poblacion VARCHAR(20),
-    ID_Socio_Avalador INT REFERENCES Socios(ID_Socio),
-    FOREIGN KEY(ID_Poblacion) REFERENCES Poblaciones(ID_Poblacion)
+    ID_Socio_Avalador INT REFERENCES Socios(ID_Socio) ON DELETE CASCADE,
+    FOREIGN KEY(ID_Poblacion) REFERENCES Poblaciones(ID_Poblacion) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Pedidos (
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS Pedidos (
     Forma_Envio VARCHAR(50),
     Forma_Pago VARCHAR(50),
     ID_Socio INT,
-    FOREIGN KEY(ID_Socio) REFERENCES Socios(ID_Socio)
+    FOREIGN KEY(ID_Socio) REFERENCES Socios(ID_Socio) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Detalles_Pedidos(
@@ -68,6 +68,6 @@ CREATE TABLE IF NOT EXISTS Detalles_Pedidos(
     ID_Pedido INT,
     ISBN VARCHAR(50),
     Cantidad INT,
-    FOREIGN KEY(ID_Pedido) REFERENCES Pedidos(ID_Pedido),
-    FOREIGN KEY(ISBN) REFERENCES Libros(ISBN)
+    FOREIGN KEY(ID_Pedido) REFERENCES Pedidos(ID_Pedido) ON DELETE CASCADE,
+    FOREIGN KEY(ISBN) REFERENCES Libros(ISBN) ON DELETE CASCADE
 );
